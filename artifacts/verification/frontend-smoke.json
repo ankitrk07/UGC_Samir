@@ -1,0 +1,50 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "path": "/pricing",
+    "status": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "path": "/book-call",
+    "status": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "path": "/dashboard",
+    "status": 200,
+    "expected": "/login",
+    "pass": true
+  },
+  {
+    "path": "/onboarding",
+    "status": 200,
+    "expected": "/signup",
+    "pass": true
+  },
+  {
+    "path": "/api/backend/campaigns",
+    "status": 401,
+    "expected": 401,
+    "pass": true,
+    "body": {
+      "message": "Log in to access your workspace."
+    }
+  },
+  {
+    "path": "/api/backend/stats",
+    "status": 503,
+    "expected": 503,
+    "pass": true,
+    "body": {
+      "message": "The live service is not connected yet."
+    }
+  }
+]

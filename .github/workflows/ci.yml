@@ -1,0 +1,57 @@
+name: CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    env:
+      HUSKY: '0'
+      NODE_ENV: test
+      DATABASE_URL: postgresql://trendhive:trendhive@localhost:5432/trendhive_test
+      REDIS_URL: redis://localhost:6379/15
+      JWT_SECRET: ci-only-signing-secret-at-least-32-characters
+      ENCRYPTION_KEY: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      SOCIAL_MODE: mock
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Start native PostgreSQL and Redis
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql redis-server
+          sudo systemctl start postgresql redis-server
+          sudo -u postgres psql --set ON_ERROR_STOP=1 --command "CREATE ROLE trendhive LOGIN PASSWORD 'trendhive';"
+          sudo -u postgres createdb --owner trendhive trendhive_test
+          pg_isready -h localhost -p 5432
+          redis-cli CONFIG SET maxmemory-policy noeviction
+          redis-cli -n 15 ping
+      - name: Install dependencies
+        run: npm ci --no-fund
+      - run: npm run setup:local
+      - run: npm run db:generate -w backend
+      - run: npm run db:validate -w backend
+      - run: npm run db:migrate -w backend
+      - run: npm run check:services
+      - run: npm run contracts:generate
+      - run: npm run test:contracts
+      - run: npm run verify:source
+      - run: npm run typecheck
+      - run: npm run lint -w backend
+      - run: npm run test -w frontend
+      - run: npm run test:coverage -w backend
+      - run: npm run build
+      - run: npm audit --audit-level=high
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-and-test-artifacts
+          path: |
+            backend/coverage
+            backend/openapi.json
+            backend/postman/TRENDHIVE.postman_collection.json
+          if-no-files-found: warn

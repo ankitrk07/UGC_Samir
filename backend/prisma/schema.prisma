@@ -1,0 +1,715 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+enum Role {
+  BRAND
+  CREATOR
+  ADMIN
+  SUPERADMIN
+}
+enum CampaignStatus {
+  DRAFT
+  REVIEW
+  LIVE
+  COMPLETED
+  CANCELLED
+}
+enum ApplicationStatus {
+  PENDING
+  SHORTLISTED
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+enum ContentStatus {
+  SUBMITTED
+  APPROVED
+  REJECTED
+  REVISION_REQUESTED
+  LIVE
+}
+enum Plan {
+  SELF_SERVICE
+  FULL_SERVICE
+}
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  EXPIRED
+}
+enum PayoutStatus {
+  REQUESTED
+  APPROVED
+  PROCESSING
+  PAID
+  FAILED
+  REJECTED
+}
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  name String
+  passwordHash String?
+  role Role @default(BRAND)
+  emailVerifiedAt DateTime?
+  bannedAt DateTime?
+  failedLogins Int @default(0)
+  lockedUntil DateTime?
+  preferences Json @default("{}")
+  termsAcceptedAt DateTime?
+  termsVersion String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  checkouts CheckoutAttempt[]
+  payments Payment[]
+  teamMemberships TeamMember[]
+  sessions RefreshToken[]
+  verificationTokens EmailVerificationToken[]
+  resetTokens PasswordResetToken[]
+  oauthAccounts OAuthAccount[]
+  brand BrandProfile?
+  creator CreatorProfile?
+  subscriptions Subscription[]
+  notifications Notification[]
+  participants ConversationParticipant[]
+  messages Message[]
+  media MediaAsset[]
+  audits AuditLog[]
+  consents CookieConsent[]
+  bookings BookCall[]
+  @@index([role,deletedAt])
+}
+model RefreshToken {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  tokenHash String @unique
+  family String
+  expiresAt DateTime
+  revokedAt DateTime?
+  replacedBy String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([userId,family])
+}
+model EmailVerificationToken {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  tokenHash String @unique
+  expiresAt DateTime
+  usedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model PasswordResetToken {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  tokenHash String @unique
+  expiresAt DateTime
+  usedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model OAuthAccount {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  provider String
+  providerAccountId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([provider,providerAccountId])
+}
+model BrandProfile {
+  id String @id @default(cuid())
+  userId String @unique
+  user User @relation(fields:[userId],references:[id])
+  brand String @default("")
+  website String @default("")
+  goal String @default("")
+  budget String @default("")
+  countries String[]
+  platforms String[]
+  gstin String?
+  billingName String?
+  billingAddress String?
+  completedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  campaigns Campaign[]
+  team TeamMember[]
+  invites TeamInvite[]
+}
+model TeamMember {
+  id String @id @default(cuid())
+  brandId String
+  brand BrandProfile @relation(fields:[brandId],references:[id])
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  permission String @default("VIEWER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@unique([brandId,userId])
+  @@index([userId,deletedAt])
+}
+model TeamInvite {
+  id String @id @default(cuid())
+  brandId String
+  brand BrandProfile @relation(fields:[brandId],references:[id])
+  email String
+  permission String @default("VIEWER")
+  tokenHash String @unique
+  expiresAt DateTime
+  acceptedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([brandId,email])
+}
+model CreatorProfile {
+  id String @id @default(cuid())
+  userId String @unique
+  user User @relation(fields:[userId],references:[id])
+  handle String @default("")
+  country String @default("")
+  niche String @default("")
+  bio String @default("")
+  followers Int @default(0)
+  engagement Float @default(0)
+  verifiedAt DateTime?
+  payoutDetailsEncrypted String?
+  portfolio Json @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  socials SocialAccount[]
+  applications Application[]
+  posts Post[]
+  wallet Wallet?
+  payouts Payout[]
+  @@index([country,niche,deletedAt])
+}
+model SocialAccount {
+  id String @id @default(cuid())
+  creatorId String
+  creator CreatorProfile @relation(fields:[creatorId],references:[id])
+  platform String
+  handle String
+  followers Int @default(0)
+  verified Boolean @default(false)
+  verificationCode String?
+  verificationExpiresAt DateTime?
+  accessTokenEncrypted String?
+  lastSyncedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@unique([platform,handle])
+  @@index([creatorId])
+}
+model Campaign {
+  id String @id @default(cuid())
+  brandId String
+  brand BrandProfile @relation(fields:[brandId],references:[id])
+  title String
+  brief String
+  goal String @default("Awareness")
+  budget Decimal @db.Decimal(14,2)
+  currency String @default("USD")
+  platforms String[]
+  countries String[]
+  niche String
+  status CampaignStatus @default(REVIEW)
+  startDate DateTime?
+  endDate DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  deliverables CampaignDeliverable[]
+  applications Application[]
+  posts Post[]
+  revenueEvents RevenueEvent[]
+  analytics AnalyticsDaily[]
+  @@index([brandId,status,deletedAt,createdAt])
+  @@index([niche,status])
+  @@index([platforms],type:Gin)
+  @@index([countries],type:Gin)
+}
+model CampaignDeliverable {
+  id String @id @default(cuid())
+  campaignId String
+  campaign Campaign @relation(fields:[campaignId],references:[id])
+  platform String
+  type String
+  quantity Int @default(1)
+  rewardMinor Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@index([campaignId])
+}
+model Application {
+  id String @id @default(cuid())
+  campaignId String
+  campaign Campaign @relation(fields:[campaignId],references:[id])
+  creatorId String
+  creator CreatorProfile @relation(fields:[creatorId],references:[id])
+  status ApplicationStatus @default(PENDING)
+  pitch String
+  rewardMinor Int @default(0)
+  currency String @default("USD")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  posts Post[]
+  @@unique([campaignId,creatorId])
+  @@index([creatorId,status])
+}
+model Post {
+  id String @id @default(cuid())
+  campaignId String
+  campaign Campaign @relation(fields:[campaignId],references:[id])
+  creatorId String
+  creator CreatorProfile @relation(fields:[creatorId],references:[id])
+  applicationId String
+  application Application @relation(fields:[applicationId],references:[id])
+  platform String
+  postUrl String
+  videoUrl String?
+  thumbnail String?
+  status ContentStatus @default(SUBMITTED)
+  rejectionReason String?
+  latestViews Int @default(0)
+  creditedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  snapshots PostMetricSnapshot[]
+  @@index([campaignId,status,deletedAt])
+  @@index([creatorId])
+  @@index([deletedAt,latestViews])
+}
+model PostMetricSnapshot {
+  id String @id @default(cuid())
+  postId String
+  post Post @relation(fields:[postId],references:[id])
+  views Int
+  likes Int
+  comments Int
+  shares Int
+  reach Int @default(0)
+  capturedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([postId,capturedAt])
+}
+model AnalyticsDaily {
+  id String @id @default(cuid())
+  campaignId String
+  campaign Campaign @relation(fields:[campaignId],references:[id])
+  creatorId String @default("")
+  brandId String
+  platform String
+  country String
+  date DateTime @db.Date
+  views Int @default(0)
+  likes Int @default(0)
+  comments Int @default(0)
+  shares Int @default(0)
+  reach Int @default(0)
+  revenueMinor Int @default(0)
+  spendMinor Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([campaignId,creatorId,platform,country,date])
+  @@index([brandId,date])
+  @@index([creatorId,date])
+}
+model Subscription {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  plan Plan @default(SELF_SERVICE)
+  billing String @default("monthly")
+  status SubscriptionStatus @default(TRIALING)
+  trialEndsAt DateTime?
+  currentPeriodEnd DateTime?
+  provider String?
+  providerSubId String? @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  payments Payment[]
+  @@index([userId,status])
+}
+model Payment {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  subscriptionId String?
+  subscription Subscription? @relation(fields:[subscriptionId],references:[id])
+  provider String
+  providerPaymentId String @unique
+  amountMinor Int
+  currency String
+  status String
+  refundedMinor Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  refunds Refund[]
+  invoice Invoice?
+  @@index([userId,createdAt])
+}
+model Invoice {
+  id String @id @default(cuid())
+  paymentId String @unique
+  payment Payment @relation(fields:[paymentId],references:[id])
+  number String @unique
+  gstin String?
+  billingName String
+  billingAddress String?
+  taxMinor Int @default(0)
+  taxRate Decimal @default(0) @db.Decimal(5,2)
+  pdfUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
+model Wallet {
+  id String @id @default(cuid())
+  creatorId String @unique
+  creator CreatorProfile @relation(fields:[creatorId],references:[id])
+  currency String @default("USD")
+  availableMinor Int @default(0)
+  reservedMinor Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  entries LedgerEntry[]
+}
+model LedgerEntry {
+  id String @id @default(cuid())
+  walletId String
+  wallet Wallet @relation(fields:[walletId],references:[id])
+  transactionId String
+  account String
+  amountMinor Int
+  reference String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([transactionId,account])
+  @@index([walletId,createdAt])
+}
+model Payout {
+  id String @id @default(cuid())
+  creatorId String
+  creator CreatorProfile @relation(fields:[creatorId],references:[id])
+  amountMinor Int
+  currency String
+  status PayoutStatus @default(REQUESTED)
+  idempotencyKey String @unique
+  providerReference String? @unique
+  detailsEncrypted String
+  failureReason String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@index([creatorId,status])
+}
+model Conversation {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  participants ConversationParticipant[]
+  messages Message[]
+}
+model ConversationParticipant {
+  id String @id @default(cuid())
+  conversationId String
+  conversation Conversation @relation(fields:[conversationId],references:[id])
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  lastReadAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@unique([conversationId,userId])
+  @@index([userId])
+}
+model Message {
+  id String @id @default(cuid())
+  conversationId String
+  conversation Conversation @relation(fields:[conversationId],references:[id])
+  senderId String
+  sender User @relation(fields:[senderId],references:[id])
+  body String
+  attachments Json @default("[]")
+  readAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@index([conversationId,createdAt])
+}
+model Notification {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  type String
+  title String
+  body String
+  link String?
+  readAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@index([userId,readAt,createdAt])
+}
+model AvailabilitySlot {
+  id String @id @default(cuid())
+  startsAt DateTime @unique
+  endsAt DateTime
+  enabled Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  bookings BookCall[]
+}
+model BookCall {
+  id String @id @default(cuid())
+  slotId String
+  slot AvailabilitySlot @relation(fields:[slotId],references:[id])
+  userId String?
+  user User? @relation(fields:[userId],references:[id])
+  email String
+  name String
+  brand String
+  timezone String
+  status BookingStatus @default(CONFIRMED)
+  notes String?
+  meetingLink String?
+  managementTokenHash String @unique
+  reminderSentAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@index([slotId,status])
+  @@index([email])
+}
+model Lead {
+  id String @id @default(cuid())
+  email String
+  name String?
+  source String
+  utmSource String?
+  utmMedium String?
+  utmCampaign String?
+  utmTerm String?
+  utmContent String?
+  details Json @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@index([email,source])
+}
+model ContactMessage {
+  id String @id @default(cuid())
+  name String
+  email String
+  message String
+  status String @default("NEW")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
+model NewsletterSubscriber {
+  id String @id @default(cuid())
+  email String @unique
+  confirmed Boolean @default(false)
+  confirmationTokenHash String @unique
+  confirmationExpiresAt DateTime
+  unsubscribeToken String @unique
+  unsubscribedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
+model MediaAsset {
+  id String @id @default(cuid())
+  uploadedBy String?
+  uploader User? @relation(fields:[uploadedBy],references:[id])
+  key String? @unique
+  type String
+  url String
+  section String
+  order Int @default(0)
+  finalPath String @default("")
+  size String @default("")
+  alt String
+  mimeType String?
+  sizeBytes Int?
+  duration Float?
+  scanStatus String @default("PENDING")
+  showcase Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  @@index([section,showcase,order])
+}
+model SiteStat {
+  id String @id @default("main")
+  creators Int @default(0)
+  views BigInt @default(0)
+  posts Int @default(0)
+  countries Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Testimonial {
+  id String @id @default(cuid())
+  type String
+  quote String
+  tag String
+  initials String
+  color String
+  metric String
+  label String
+  order Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
+model FAQ {
+  id String @id @default(cuid())
+  question String
+  answer String
+  order Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
+model PricingPlan {
+  id String @id @default(cuid())
+  plan Plan @unique
+  name String
+  monthly Int
+  annual Int
+  currency String @default("USD")
+  features String[]
+  stripeMonthlyPriceId String?
+  stripeAnnualPriceId String?
+  razorpayMonthlyPlanId String?
+  razorpayAnnualPlanId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
+model AuditLog {
+  id String @id @default(cuid())
+  actorId String?
+  actor User? @relation(fields:[actorId],references:[id])
+  action String
+  resource String
+  resourceId String?
+  requestId String?
+  ip String?
+  details Json @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([actorId,createdAt])
+  @@index([resource,resourceId])
+}
+model WebhookEvent {
+  id String @id @default(cuid())
+  provider String
+  eventId String
+  type String
+  payloadHash String
+  processedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([provider,eventId])
+}
+model CookieConsent {
+  id String @id @default(cuid())
+  userId String?
+  user User? @relation(fields:[userId],references:[id])
+  anonymousId String
+  necessary Boolean @default(true)
+  analytics Boolean @default(false)
+  marketing Boolean @default(false)
+  version String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([anonymousId,createdAt])
+}
+model OutboxEvent {
+  id String @id @default(cuid())
+  type String
+  payload Json
+  processedAt DateTime?
+  attempts Int @default(0)
+  lastError String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([processedAt,createdAt])
+}
+
+model Refund {
+  id String @id @default(cuid())
+  paymentId String
+  payment Payment @relation(fields:[paymentId],references:[id])
+  idempotencyKey String @unique
+  providerRefundId String? @unique
+  amountMinor Int
+  reason String
+  status String @default("REQUESTED")
+  attemptedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([paymentId,status])
+}
+model RevenueEvent {
+  id String @id @default(cuid())
+  campaignId String
+  campaign Campaign @relation(fields:[campaignId],references:[id])
+  eventId String @unique
+  revenueMinor Int
+  spendMinor Int
+  currency String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([campaignId,createdAt])
+}
+
+model CheckoutAttempt {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields:[userId],references:[id])
+  idempotencyKey String
+  requestHash String
+  provider String
+  status String @default("PROCESSING")
+  response Json?
+  lastError String?
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([userId,idempotencyKey])
+  @@index([userId,status])
+}

@@ -1,0 +1,14 @@
+node_modules
+**/node_modules
+.next
+**/.next
+.git
+**/.env
+**/.env.local
+**/.env*
+!**/.env.example
+.npm-verification-cache
+**/coverage
+artifacts
+frontend/artifacts
+frontend/test-results

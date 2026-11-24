@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.env*
+!.env.example
+*.tsbuildinfo
+test-results/
+playwright-report/
+
+backend/dist/
+backend/coverage/
+artifacts/verification/*.log
+
+.npm-verification-cache/
+artifacts/verification/**/*.log

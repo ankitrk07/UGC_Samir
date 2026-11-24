@@ -1,0 +1,3118 @@
+{
+  "info": {
+    "name": "TRENDHIVE API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4000"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Get double-submit CSRF token for native cookie clients",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/auth/csrf",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Consume one-time OAuth exchange code",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/google/exchange",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Register a brand or creator",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/signup",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/login",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Current account",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/auth/me",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Rotate refresh token",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/refresh",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/logout",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Revoke all sessions",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/logout-all",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "forgot-password",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/forgot-password",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "resend-verification",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/resend-verification",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Reset password",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/reset-password",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Verify email",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/verify-email",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Change password and revoke sessions",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/change-password",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Begin Google OAuth with PKCE",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/auth/google",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Google callback",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/auth/google/callback",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Update brand invoice billing details",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/brand/billing",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Update own brand profile",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/brand/profile",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "get brand profile / onboarding",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/brand/profile",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "delete brand profile / onboarding",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/brand/profile",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Creator public collaboration profile",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/creators/{id}/profile",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "post brand profile / onboarding",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/brand/onboarding",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "patch brand profile / onboarding",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/brand/onboarding",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Team members and pending invites",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/brand/team",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Invite team member",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/brand/team/invites",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Accept team invitation",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/brand/team/accept",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Remove team member",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/brand/team/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Accessible campaigns",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/campaigns",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Create campaign brief",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/campaigns",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Public live campaigns",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/campaigns/marketplace",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Create campaign brief",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/brand/jobs",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Campaign detail",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/campaigns/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Edit campaign",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/campaigns/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Soft delete campaign",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/campaigns/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Duplicate campaign as draft",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/campaigns/{id}/duplicate",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Add campaign deliverable",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/campaigns/{id}/deliverables",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Creator discovery directory",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/creators",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "get creator profile",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/creators/me",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "patch creator profile",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/creators/me",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "delete creator profile",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/creators/me",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Complete creator onboarding",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/creators/onboarding",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Encrypt creator payout details",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/creators/payout-details",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Apply to a live campaign",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/campaigns/{id}/applications",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Owned applications",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/applications",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Withdraw own application",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/applications/{id}/withdraw",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Review applicant and agree reward",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/applications/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Submit content for an accepted application",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/content",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Owned campaign content",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/content",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Approve, reject or request content revisions",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/content/{id}/review",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Resubmit revised content or mark approved content live",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/content/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Idempotent attributed revenue/spend ingestion for ROI",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/campaigns/{id}/revenue",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Dashboard Views / Engagement / ROI",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/analytics",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CSV or PDF analytics export",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/analytics/export",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Top owned posts by latest views",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/analytics/top-posts",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Creator leaderboard for owned campaign analytics",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/analytics/leaderboard",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Link a social profile with expiring bio verification",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/creators/socials",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "List own linked social accounts",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/creators/socials",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Verify code from provider bio",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/creators/socials/{id}/verify",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Unlink own social account",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/creators/socials/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Create short-lived signed quarantine upload URL",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/media/upload",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Validate upload and queue media scan/thumbnail",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/media/{id}/complete",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Read owned media processing status / signed download",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/media/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Soft delete owned media",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/media/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Create provider checkout with remaining trial",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/payments/checkout",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Current subscription and trial",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/subscriptions/me",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Cancel at current billing period end",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/subscriptions/cancel",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Change self-service billing interval at provider",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/subscriptions/plan",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Stripe billing portal to update payment method",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/payments/portal",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Own invoices",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/invoices",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Download owned invoice PDF",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/invoices/{id}/pdf",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Reserve and queue an idempotent provider refund",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/admin/payments/{id}/refund",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Creator wallet and earnings ledger",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/creators/earnings",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Reserve creator balance for payout",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/payouts",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Own creator payouts",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/payouts",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Approve / process / reconcile payout settlement",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/payouts/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Own conversations with unread counts",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/conversations",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Create conversation with a campaign collaborator",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/conversations",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Paginated participant message history",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/conversations/{id}/messages",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Send message (REST fallback)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/conversations/{id}/messages",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Mark conversation read",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/conversations/{id}/read",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Presence of fellow conversation participants",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/conversations/{id}/presence",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Own in-app notifications",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/notifications",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Mark own notification read",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/notifications/{id}/read",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Mark all own notifications read",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/notifications/read-all",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Update in-app/email notification preferences",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/notifications/preferences",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Public contact form",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/contact",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Public creator interest form",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/creators/apply",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Capture lead with UTM attribution",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/leads",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Newsletter double opt-in request",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/newsletter",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Confirm newsletter opt-in",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/newsletter/confirm",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Unsubscribe using opaque email token",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/newsletter/unsubscribe",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Public testimonials",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/testimonials",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Public faq",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/faq",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Public pricing",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/pricing",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Supported country choices",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/countries",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Live site stats",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/stats",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Managed assets matching assets.ts",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/media/showcase",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Public sitemap data",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/sitemap",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Available times on a date in IANA timezone",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/bookings/slots",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Atomically reserve an available call slot",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/bookings",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Cancel call using private management token",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/bookings/{id}/cancel",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Reschedule call using private management token",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/bookings/{id}/reschedule",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Audited finance access to encrypted payout destination",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/payouts/{id}/details",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Inspect unresolved provider checkout attempts",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/checkouts",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SuperAdmin attests no provider object exists after reconciliation",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/checkouts/{id}/reconcile",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Admin user directory",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/users",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Ban/unban with session revocation and audit",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/users/{id}/status",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "SuperAdmin creates audited read-only impersonation session",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/admin/users/{id}/impersonate",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Creator verification queue",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/creators/verification",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Approve creator verification",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/creators/{id}/verify",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Platform revenue and operational metrics",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/metrics",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin leads management list",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/leads",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin contacts management list",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/contacts",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin calls management list",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/calls",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin payouts management list",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/payouts",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin audit management list",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/audit",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin content management list",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/content",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Admin campaigns management list",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/campaigns",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Mark contact message in progress/resolved",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/contacts/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Soft delete a lead",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/admin/leads/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Manage booking and meeting link",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/calls/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Admin availability slots",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/availability",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Create explicit availability slot",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/admin/availability",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Enable/disable availability",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/availability/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "post managed testimonials",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/admin/site/testimonials",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "patch managed testimonials",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/site/testimonials/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "delete managed testimonials",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/admin/site/testimonials/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "post managed faq",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/admin/site/faq",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "patch managed faq",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/site/faq/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "delete managed faq",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/admin/site/faq/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "post managed pricing",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/admin/site/pricing",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "patch managed pricing",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/site/pricing/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "delete managed pricing",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/admin/site/pricing/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Save editorial site counters",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/site/stats",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Manage all media/showcase assets",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/media",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Replace showcase asset metadata without frontend code changes",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/media/{id}",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Append cookie-consent decision",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/compliance/consent",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Record current terms/privacy acceptance",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/compliance/terms",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Export own personal data (GDPR/DPDP)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/compliance/export",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Reauthenticate, anonymize personal data and revoke sessions",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/compliance/account",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Signed raw-body stripe webhook",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/payments/webhooks/stripe",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Signed raw-body razorpay webhook",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/payments/webhooks/razorpay",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Idempotency-Key",
+            "value": "{{$guid}}"
+          }
+        ]
+      }
+    }
+  ]
+}

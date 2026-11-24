@@ -1,0 +1,30 @@
+{
+  "name": "trendhive-workspace",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w frontend",
+    "dev:api": "npm run dev -w backend",
+    "build": "npm run build -w backend && npm run build -w frontend",
+    "typecheck": "npm run typecheck -w backend && npm run typecheck -w frontend",
+    "test": "npm run test -w backend && npm run test -w frontend",
+    "prepare": "husky",
+    "test:contracts": "node --test tests/*.test.cjs",
+    "verify:source": "node scripts/verify-source.cjs",
+    "contracts:generate": "node scripts/export-contracts.cjs",
+    "inventory:frontend": "node scripts/inventory-frontend.cjs",
+    "verify:readiness": "node scripts/verify-readiness.cjs",
+    "setup:local": "node scripts/setup-local.cjs",
+    "audit:schema": "node scripts/audit-schema.cjs",
+    "dev:all": "node scripts/dev-all.cjs",
+    "dev:worker": "npm run worker -w backend",
+    "check:services": "node scripts/check-services.cjs"
+  },
+  "devDependencies": {
+    "@prisma/client": "6.19.0",
+    "husky": "^9.1.7"
+  }
+}

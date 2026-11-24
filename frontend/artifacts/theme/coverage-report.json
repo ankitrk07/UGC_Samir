@@ -1,0 +1,254 @@
+[
+  {
+    "device": "desktop",
+    "route": "/for-brands",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/for-creators",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/pricing",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/login",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/signup",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/book-call",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/contact",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/forgot-password",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/reset-password",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/legal/privacy",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/legal/terms",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/dashboard-demo",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/onboarding",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "desktop",
+    "route": "/dashboard",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/for-brands",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/for-creators",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/pricing",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/login",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/signup",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/book-call",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/contact",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/forgot-password",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/reset-password",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/legal/privacy",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/legal/terms",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/dashboard-demo",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/onboarding",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  },
+  {
+    "device": "mobile",
+    "route": "/dashboard",
+    "theme": "light",
+    "overflow": false,
+    "darkSurfaces": [],
+    "lowContrast": [],
+    "errors": []
+  }
+]

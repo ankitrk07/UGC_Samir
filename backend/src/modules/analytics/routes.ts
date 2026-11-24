@@ -1,0 +1,20 @@
+import type { Express } from 'express';
+import { z } from 'zod';
+import PDFDocument from 'pdfkit';
+import { route, ok, requireUser, pageSchema, pagination } from '../../core/http';
+import { db } from '../../core/db';
+import { csvCell } from '../../core/security';
+import { recordRevenue } from './revenue';
+import { analytics, analyticsScope } from './service';
+export const analyticsQuery = z.object({ currency: z.enum(['USD', 'INR', 'EUR', 'GBP']).default('USD'), days: z.coerce.number().int().min(1).max(366).default(30), from: z.string().date().optional(), to: z.string().date().optional(), campaignId: z.string().max(100).optional(), platform: z.string().max(50).optional(), country: z.string().max(100).optional() }).strict();
+export function analyticsRoutes(app: Express) {
+    route(app, { method: 'post', path: '/campaigns/:id/revenue', summary: 'Idempotent attributed revenue/spend ingestion for ROI', roles: ['BRAND', 'ADMIN', 'SUPERADMIN'], schema: z.object({ eventId: z.string().min(8).max(200), creatorId: z.string().max(100).default(''), platform: z.string().min(1).max(50), country: z.string().min(1).max(100), date: z.string().date(), revenueMinor: z.number().int().nonnegative(), spendMinor: z.number().int().nonnegative(), currency: z.enum(['USD', 'INR', 'EUR', 'GBP']) }).strict(), handler: async (req, res) => ok(res, await recordRevenue(requireUser(req), req.params.id!, req.body), null, 201) });
+    route(app, { method: 'get', path: '/analytics', summary: 'Dashboard Views / Engagement / ROI', auth: true, query: analyticsQuery, handler: async (req, res) => ok(res, await analytics(requireUser(req), analyticsQuery.parse(req.query))) });
+    route(app, { method: 'get', path: '/analytics/export', summary: 'CSV or PDF analytics export', auth: true, query: analyticsQuery.extend({ format: z.enum(['csv', 'pdf']).default('csv') }), handler: async (req, res) => { const { format, ...q } = analyticsQuery.extend({ format: z.enum(['csv', 'pdf']) }).parse(req.query); const report = await analytics(requireUser(req), q); res.setHeader('Content-Disposition', `attachment; filename="trendhive-report.${format}"`); if (format === 'csv') {
+            res.type('text/csv');
+            return res.send([['Date', 'Views (K)', 'Engagement (%)', 'ROI'], ...report.series.map(p => [p.date, p.views, p.engagement, p.roi])].map(row => row.map(csvCell).join(',')).join('\r\n'));
+        } res.type('application/pdf'); const pdf = new PDFDocument(); pdf.pipe(res); pdf.fontSize(22).text('TRENDHIVE campaign report'); pdf.fontSize(12).text(`Views: ${report.totalViews}\nEngagement: ${report.engagement}%\nROI: ${report.roi}\nReach: ${report.reach}\nCPV: ${report.cpv}`); for (const r of report.series)
+            pdf.text(`${r.date}: ${r.views}K views, ${r.engagement}% engagement, ${r.roi} ROI`); pdf.end(); } });
+    route(app, { method: 'get', path: '/analytics/top-posts', summary: 'Top owned posts by latest views', auth: true, query: pageSchema, handler: async (req, res) => { const u = requireUser(req); const where = { deletedAt: null, ...(u.role === 'BRAND' ? { campaign: { brand: { OR:[{userId:u.id},{team:{some:{userId:u.id,deletedAt:null}}}] }, deletedAt: null } } : u.role === 'CREATOR' ? { creator: { userId: u.id } } : {}) }; const posts = await db.post.findMany({ where, include: { snapshots: { orderBy: { capturedAt: 'desc' }, take: 1 } }, ...pagination(req.query), orderBy: [{latestViews:'desc'},{id:'asc'}] }); return ok(res, posts.sort((a, b) => (b.snapshots[0]?.views ?? 0) - (a.snapshots[0]?.views ?? 0))); } });
+    route(app, { method: 'get', path: '/analytics/leaderboard', summary: 'Creator leaderboard for owned campaign analytics', auth: true, query: analyticsQuery, handler: async (req, res) => { const {where}=await analyticsScope(requireUser(req),analyticsQuery.parse(req.query)); const data=await db.analyticsDaily.groupBy({by:['creatorId'],where,_sum:{views:true,likes:true,comments:true,shares:true},orderBy:{_sum:{views:'desc'}},take:25});return ok(res,data); } });
+}

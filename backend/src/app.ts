@@ -1,0 +1,62 @@
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
+import pinoHttp from 'pino-http';
+import swagger from 'swagger-ui-express';
+import { env } from './config';
+import { db, redis } from './core/db';
+import { registry, requestId, errorHandler, csrf, rateLimit, log, asyncRoute, ok, AppError, authenticate, roles } from './core/http';
+import { authRoutes } from './modules/auth/routes';
+import { campaignRoutes } from './modules/campaigns/routes';
+import { analyticsRoutes } from './modules/analytics/routes';
+import { socialRoutes } from './modules/social/routes';
+import { mediaRoutes } from './modules/media/routes';
+import { webhookRoutes, paymentRoutes } from './modules/payments/routes';
+import { chatRoutes } from './modules/chat/routes';
+import { publicRoutes } from './modules/public/routes';
+import { adminRoutes } from './modules/admin/routes';
+import { complianceRoutes } from './modules/compliance/routes';
+import { openapi } from './openapi';
+import { createBullBoard } from '@bull-board/api';
+import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
+import { ExpressAdapter } from '@bull-board/express';
+import { jobs } from './jobs';
+import { requestLogPath } from './core/security';
+export function createApp() {
+    registry.length = 0;
+    const app = express();
+    // Prisma BigInt (for example SiteStat.views) must serialize without precision loss.
+    app.set('json replacer', (_key: string, value: unknown) => typeof value === 'bigint' ? value.toString() : value);
+    app.disable('x-powered-by');
+    app.set('trust proxy', env.TRUST_PROXY);
+    app.use(requestId, pinoHttp({ logger: log, autoLogging: env.NODE_ENV !== 'test', serializers: { req: (value: { id?: string | number; method?: string; url?: string; remoteAddress?: string; remotePort?: number }) => ({ id: value.id, method: value.method, url: requestLogPath(value.url), remoteAddress: value.remoteAddress, remotePort: value.remotePort }) }, customProps: req => ({ requestId: (req as express.Request).requestId }) }), helmet());
+    app.use(cors({ origin: (origin, cb) => { if (!origin || env.CORS_ORIGINS.split(',').map(x => x.trim()).includes(origin))
+            cb(null, true);
+        else
+            cb(new AppError(403, 'ORIGIN_REJECTED', 'Origin is not allowed.')); }, credentials: true, allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token', 'Idempotency-Key'], exposedHeaders: ['X-Request-ID', 'RateLimit-Limit', 'RateLimit-Remaining'] }));
+    app.get('/health', (_req, res) => ok(res, { status: 'ok' }));
+    app.get('/ready', asyncRoute(async (_req, res) => { try { await Promise.all([db.$queryRaw `SELECT 1`, redis.ping()]); } catch { throw new AppError(503, 'DEPENDENCIES_UNAVAILABLE', 'Database or Redis is unavailable.'); } return ok(res, { status: 'ready' }); }));
+    webhookRoutes(app);
+    app.use(express.json({ limit: '32kb' }), cookieParser(), csrf);
+    app.use('/api/v1', rateLimit('api', 600, 60), (_req, res, next) => { res.setHeader('Cache-Control', 'no-store'); next(); });
+    authRoutes(app);
+    campaignRoutes(app);
+    analyticsRoutes(app);
+    socialRoutes(app);
+    mediaRoutes(app);
+    paymentRoutes(app);
+    chatRoutes(app);
+    publicRoutes(app);
+    adminRoutes(app);
+    complianceRoutes(app);
+    app.get('/openapi.json', (_req, res) => res.json(openapi()));
+    app.use('/docs', helmet({ contentSecurityPolicy: false }), swagger.serve, swagger.setup(openapi()));
+    const board = new ExpressAdapter();
+    board.setBasePath('/admin/queues');
+    createBullBoard({ queues: [new BullMQAdapter(jobs, {readOnlyMode:true})], serverAdapter: board });
+    app.use('/admin/queues', authenticate, roles('ADMIN', 'SUPERADMIN'), board.getRouter());
+    app.use((_req, _res, next) => next(new AppError(404, 'NOT_FOUND', 'Endpoint not found.')));
+    app.use(errorHandler);
+    return app;
+}

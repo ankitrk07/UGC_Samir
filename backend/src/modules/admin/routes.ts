@@ -1,0 +1,78 @@
+import type { Express } from 'express';
+import { z } from 'zod';
+import { route, ok, requireUser, assert, pagination, pageSchema, audit } from '../../core/http';
+import { db, redis, transaction } from '../../core/db';
+import { safePayout } from '../payments/service';
+import { publicUser } from '../auth/service';
+const text = (max = 500) => z.string().trim().min(1).max(max);
+export const testimonialSchema = z.object({ type: text(100), quote: text(2000), tag: text(100), initials: text(5), color: z.string().regex(/^#[a-f0-9]{6}$/i), metric: text(100), label: text(200), order: z.number().int().min(0).default(0) }).strict();
+export const faqSchema = z.object({ question: text(500), answer: text(5000), order: z.number().int().min(0).default(0) }).strict();
+export const pricingSchema = z.object({ plan: z.enum(['SELF_SERVICE', 'FULL_SERVICE']), name: text(100), monthly: z.number().int().nonnegative(), annual: z.number().int().nonnegative(), currency: z.enum(['USD', 'INR', 'EUR', 'GBP']), features: z.array(text(300)).max(50), stripeMonthlyPriceId: text(100).optional(), stripeAnnualPriceId: text(100).optional(), razorpayMonthlyPlanId: text(100).optional(), razorpayAnnualPlanId: text(100).optional() }).strict();
+export const showcaseSchema = z.object({ section: text(100), alt: text(300), order: z.number().int().min(0).optional(), showcase: z.boolean().optional(), finalPath: z.string().max(500).optional(), size: z.string().max(200).optional() }).strict();
+export function adminRoutes(app: Express) {
+    route(app,{method:'get',path:'/admin/payouts/:id/details',summary:'Audited finance access to encrypted payout destination',roles:['ADMIN','SUPERADMIN'],handler:async(req,res)=>{const payout=await db.payout.findFirst({where:{id:req.params.id!,deletedAt:null}});assert(payout,404,'NOT_FOUND','Payout not found.');const {decrypt}=await import('../../core/security');await audit(req,'PAYOUT_DETAILS_VIEWED','Payout',payout.id);return ok(res,{id:payout.id,destination:decrypt(payout.detailsEncrypted)});}});
+    route(app,{method:'get',path:'/admin/checkouts',summary:'Inspect unresolved provider checkout attempts',roles:['ADMIN','SUPERADMIN'],query:pageSchema,handler:async(req,res)=>ok(res,await db.checkoutAttempt.findMany({where:{status:{in:['PROCESSING','RECONCILE_REQUIRED']}},...pagination(req.query),orderBy:{createdAt:'asc'}}))});
+    route(app,{method:'patch',path:'/admin/checkouts/:id/reconcile',summary:'SuperAdmin attests no provider object exists after reconciliation',roles:['SUPERADMIN'],schema:z.object({outcome:z.literal('CONFIRMED_NO_PROVIDER_OBJECT'),reason:z.string().min(20).max(2000)}).strict(),handler:async(req,res)=>{return ok(res,await transaction(async tx=>{const attempt=await tx.checkoutAttempt.findUnique({where:{id:req.params.id!}});assert(attempt&&['PROCESSING','RECONCILE_REQUIRED'].includes(attempt.status),409,'INVALID_STATE','Checkout does not require reconciliation.');await tx.auditLog.create({data:{actorId:requireUser(req).id,action:'CHECKOUT_RECONCILED_NO_PROVIDER_OBJECT',resource:'CheckoutAttempt',resourceId:attempt.id,requestId:req.requestId,details:{reason:req.body.reason}}});return tx.checkoutAttempt.update({where:{id:attempt.id},data:{status:'FAILED',lastError:'Reconciled by SuperAdmin: no provider object exists'}});}));}});
+
+    const admin = ['ADMIN', 'SUPERADMIN'] as const;
+    route(app, { method: 'get', path: '/admin/users', summary: 'Admin user directory', roles: [...admin], query: pageSchema.extend({ q: text(200).optional(), role: z.enum(['BRAND', 'CREATOR', 'ADMIN', 'SUPERADMIN']).optional() }).strict(), handler: async (req, res) => { const items = await db.user.findMany({ where: { deletedAt: null, ...(req.query.role ? { role: req.query.role as 'BRAND' | 'CREATOR' | 'ADMIN' | 'SUPERADMIN' } : {}), ...(req.query.q ? { email: { contains: String(req.query.q), mode: 'insensitive' } } : {}) }, ...pagination(req.query), orderBy: { createdAt: 'desc' } }); return ok(res, items.map(u => ({ ...publicUser(u), bannedAt: u.bannedAt, createdAt: u.createdAt }))); } });
+    route(app, { method: 'patch', path: '/admin/users/:id/status', summary: 'Ban/unban with session revocation and audit', roles: [...admin], schema: z.object({ banned: z.boolean(), reason: text(1000) }).strict(), handler: async (req, res) => { const actor = requireUser(req); const target = await db.user.findUnique({ where: { id: req.params.id! } }); assert(target && target.id !== actor.id, 400, 'INVALID_TARGET', 'Choose another account.'); assert(target.role !== 'SUPERADMIN' && (actor.role === 'SUPERADMIN' || target.role !== 'ADMIN'), 403, 'FORBIDDEN', 'You cannot change this account.'); await transaction(async (tx) => { await tx.user.update({ where: { id: target.id }, data: { bannedAt: req.body.banned ? new Date() : null } }); if (req.body.banned)
+            await tx.refreshToken.updateMany({ where: { userId: target.id }, data: { revokedAt: new Date() } }); await tx.auditLog.create({ data: { actorId: actor.id, action: req.body.banned ? 'USER_BANNED' : 'USER_UNBANNED', resource: 'User', resourceId: target.id, requestId: req.requestId, details: { reason: req.body.reason } } }); }); return ok(res, { updated: true }); } });
+    route(app, { method: 'post', path: '/admin/users/:id/impersonate', summary: 'SuperAdmin creates audited read-only impersonation session', roles: ['SUPERADMIN'], schema: z.object({ reason: text(1000) }).strict(), handler: async (req, res) => { const target = await db.user.findFirst({ where: { id: req.params.id!, role: { in: ['BRAND', 'CREATOR'] }, deletedAt: null, bannedAt: null } }); assert(target, 404, 'NOT_FOUND', 'Account not found.'); const { opaqueToken, hash, accessToken } = await import('../../core/security'); const raw = opaqueToken(); const session = await db.refreshToken.create({ data: { userId: target.id, tokenHash: hash(raw), family: `impersonation:${requireUser(req).id}`, expiresAt: new Date(Date.now() + 900000) } }); await audit(req, 'USER_IMPERSONATED', 'User', target.id, { reason: req.body.reason, sessionId: session.id, readOnly: true }); return ok(res, { accessToken: accessToken(target, session.id), expiresIn: 900, readOnly: true, user: publicUser(target) }); } });
+    route(app, { method: 'get', path: '/admin/creators/verification', summary: 'Creator verification queue', roles: [...admin], query: pageSchema, handler: async (req, res) => ok(res, await db.creatorProfile.findMany({ where: { verifiedAt: null, deletedAt: null }, select: { id: true, handle: true, country: true, niche: true, userId: true, socials: { select: { id: true, platform: true, handle: true, verified: true } } }, ...pagination(req.query), orderBy: { createdAt: 'asc' } })) });
+    route(app, { method: 'patch', path: '/admin/creators/:id/verify', summary: 'Approve creator verification', roles: [...admin], schema: z.object({ verified: z.boolean() }).strict(), handler: async (req, res) => { const c = await db.creatorProfile.findFirst({ where: { id: req.params.id!, deletedAt: null } }); assert(c, 404, 'NOT_FOUND', 'Creator not found.'); await db.creatorProfile.update({ where: { id: c.id }, data: { verifiedAt: req.body.verified ? new Date() : null } }); await audit(req, 'CREATOR_VERIFICATION_CHANGED', 'CreatorProfile', c.id, { verified: req.body.verified }); return ok(res, { verified: req.body.verified }); } });
+    route(app, { method: 'get', path: '/admin/metrics', summary: 'Platform revenue and operational metrics', roles: [...admin], handler: async (_req, res) => { const [users, campaigns, pendingPayouts, payments, leads, calls] = await Promise.all([db.user.groupBy({ by: ['role'], where: { deletedAt: null }, _count: true }), db.campaign.groupBy({ by: ['status'], where: { deletedAt: null }, _count: true }), db.payout.groupBy({ by: ['currency'], where: { status: { in: ['REQUESTED', 'APPROVED', 'PROCESSING'] }, deletedAt: null }, _sum: { amountMinor: true } }), db.payment.groupBy({ by: ['currency'], where: { status: 'PAID', deletedAt: null }, _sum: { amountMinor: true, refundedMinor: true } }), db.lead.count({ where: { deletedAt: null } }), db.bookCall.count({ where: { status: 'CONFIRMED', deletedAt: null } })]); return ok(res, { users, campaigns, pendingPayouts, payments, leads, calls }); } });
+    for (const resource of ['leads', 'contacts', 'calls', 'payouts', 'audit', 'content', 'campaigns'] as const)
+        route(app, { method: 'get', path: '/admin/' + resource, summary: `Admin ${resource} management list`, roles: [...admin], query: pageSchema, handler: async (req, res) => { const p = pagination(req.query); const args = { ...p, orderBy: { createdAt: 'desc' as const } }; let data: unknown; if (resource === 'leads')
+                data = await db.lead.findMany({ ...args, where: { deletedAt: null } });
+            else if (resource === 'contacts')
+                data = await db.contactMessage.findMany({ ...args, where: { deletedAt: null } });
+            else if (resource === 'calls')
+                data = await db.bookCall.findMany({ ...args, where: { deletedAt: null }, select: { id: true, name: true, email: true, brand: true, timezone: true, status: true, notes: true, meetingLink: true, slot: true } });
+            else if (resource === 'payouts')
+                data = (await db.payout.findMany({ ...args, where: { deletedAt: null } })).map(safePayout);
+            else if (resource === 'audit')
+                data = await db.auditLog.findMany(args);
+            else if (resource === 'content')
+                data = await db.post.findMany({ ...args, where: { deletedAt: null } });
+            else
+                data = await db.campaign.findMany({ ...args, where: { deletedAt: null } }); return ok(res, data); } });
+    route(app, { method: 'patch', path: '/admin/contacts/:id', summary: 'Mark contact message in progress/resolved', roles: [...admin], schema: z.object({ status: z.enum(['NEW', 'IN_PROGRESS', 'RESOLVED']) }).strict(), handler: async (req, res) => { const c = await db.contactMessage.update({ where: { id: req.params.id! }, data: req.body }); await audit(req, 'CONTACT_STATUS_CHANGED', 'ContactMessage', c.id); return ok(res, c); } });
+    route(app, { method: 'delete', path: '/admin/leads/:id', summary: 'Soft delete a lead', roles: [...admin], handler: async (req, res) => { await db.lead.update({ where: { id: req.params.id! }, data: { deletedAt: new Date() } }); await audit(req, 'LEAD_DELETED', 'Lead', req.params.id!); return ok(res, { deleted: true }); } });
+    route(app, { method: 'patch', path: '/admin/calls/:id', summary: 'Manage booking and meeting link', roles: [...admin], schema: z.object({ status: z.enum(['CONFIRMED', 'CANCELLED', 'COMPLETED']).optional(), meetingLink: z.string().url().max(2048).optional(), notes: z.string().max(1000).optional() }).strict(), handler: async (req, res) => { const b = await db.bookCall.update({ where: { id: req.params.id! }, data: req.body, select: { id: true, status: true, meetingLink: true, notes: true } }); await audit(req, 'BOOKING_UPDATED', 'BookCall', b.id); return ok(res, b); } });
+    route(app, { method: 'get', path: '/admin/availability', summary: 'Admin availability slots', roles: [...admin], query: pageSchema, handler: async (req, res) => ok(res, await db.availabilitySlot.findMany({ where: { deletedAt: null }, ...pagination(req.query), orderBy: { startsAt: 'asc' } })) });
+    route(app, { method: 'post', path: '/admin/availability', summary: 'Create explicit availability slot', roles: [...admin], schema: z.object({ startsAt: z.string().datetime(), endsAt: z.string().datetime() }).strict().refine(v => v.endsAt > v.startsAt && new Date(v.startsAt) > new Date(), 'Choose a future interval.'), handler: async (req, res) => { const b = await db.availabilitySlot.create({ data: req.body }); await audit(req, 'AVAILABILITY_CREATED', 'AvailabilitySlot', b.id); return ok(res, b, null, 201); } });
+    route(app, { method: 'patch', path: '/admin/availability/:id', summary: 'Enable/disable availability', roles: [...admin], schema: z.object({ enabled: z.boolean() }).strict(), handler: async (req, res) => { const b = await db.availabilitySlot.update({ where: { id: req.params.id! }, data: req.body }); await audit(req, 'AVAILABILITY_CHANGED', 'AvailabilitySlot', b.id); return ok(res, b); } });
+    for (const resource of ['testimonials', 'faq', 'pricing'] as const) {
+        const schema = resource === 'testimonials' ? testimonialSchema : resource === 'faq' ? faqSchema : pricingSchema;
+        for (const method of ['post', 'patch', 'delete'] as const)
+            route(app, { method, path: `/admin/site/${resource}${method === 'post' ? '' : '/:id'}`, summary: `${method} managed ${resource}`, roles: [...admin], ...(method !== 'delete' ? { schema: method === 'patch' ? schema.partial() : schema } : {}), handler: async (req, res) => {
+                    const id = req.params.id!;
+                    let result: unknown;
+                    if (resource === 'testimonials') {
+                        if (method === 'post')
+                            result = await db.testimonial.create({ data: req.body });
+                        else
+                            result = await db.testimonial.update({ where: { id }, data: method === 'delete' ? { deletedAt: new Date() } : req.body });
+                    }
+                    else if (resource === 'faq') {
+                        if (method === 'post')
+                            result = await db.fAQ.create({ data: req.body });
+                        else
+                            result = await db.fAQ.update({ where: { id }, data: method === 'delete' ? { deletedAt: new Date() } : req.body });
+                    }
+                    else {
+                        if (method === 'post')
+                            result = await db.pricingPlan.create({ data: req.body });
+                        else
+                            result = await db.pricingPlan.update({ where: { id }, data: method === 'delete' ? { deletedAt: new Date() } : req.body });
+                    }
+                    await redis.del(`public:${resource}`);
+                    await audit(req, `SITE_${resource.toUpperCase()}_${method.toUpperCase()}`, resource, id);
+                    return ok(res, result);
+                } });
+    }
+    route(app, { method: 'patch', path: '/admin/site/stats', summary: 'Save editorial site counters', roles: [...admin], schema: z.object({ creators: z.number().int().nonnegative(), views: z.number().int().nonnegative().safe(), posts: z.number().int().nonnegative(), countries: z.number().int().nonnegative() }).strict(), handler: async (req, res) => { await db.siteStat.upsert({ where: { id: 'main' }, create: { id: 'main', ...req.body }, update: req.body }); await audit(req, 'SITE_STATS_CHANGED', 'SiteStat', 'main'); return ok(res, req.body); } });
+    route(app, { method: 'get', path: '/admin/media', summary: 'Manage all media/showcase assets', roles: [...admin], query: pageSchema, handler: async (req, res) => ok(res, await db.mediaAsset.findMany({ where: { deletedAt: null }, ...pagination(req.query), orderBy: { order: 'asc' } })) });
+    route(app, { method: 'patch', path: '/admin/media/:id', summary: 'Replace showcase asset metadata without frontend code changes', roles: [...admin], schema: showcaseSchema, handler: async (req, res) => { const a = await db.mediaAsset.findFirst({ where: { id: req.params.id!, scanStatus: 'CLEAN', deletedAt: null } }); assert(a && a.url, 400, 'MEDIA_NOT_APPROVED', 'Only approved media with CDN URLs may be published.'); const result = await db.mediaAsset.update({ where: { id: a.id }, data: req.body }); await audit(req, 'SHOWCASE_MEDIA_UPDATED', 'MediaAsset', a.id); return ok(res, result); } });
+}

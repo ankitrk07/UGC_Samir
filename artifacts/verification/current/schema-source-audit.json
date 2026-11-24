@@ -1,0 +1,355 @@
+{
+  "sourceOnly": true,
+  "databaseExecuted": false,
+  "migrations": [
+    "20261111000000_initial",
+    "20261113000000_user_integrity"
+  ],
+  "rows": [
+    {
+      "model": "User",
+      "fields": 15,
+      "nullable": 7,
+      "foreignKeys": 0,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "RefreshToken",
+      "fields": 9,
+      "nullable": 2,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "EmailVerificationToken",
+      "fields": 7,
+      "nullable": 1,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 0
+    },
+    {
+      "model": "PasswordResetToken",
+      "fields": 7,
+      "nullable": 1,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 0
+    },
+    {
+      "model": "OAuthAccount",
+      "fields": 6,
+      "nullable": 0,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 0
+    },
+    {
+      "model": "BrandProfile",
+      "fields": 15,
+      "nullable": 5,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 0
+    },
+    {
+      "model": "TeamMember",
+      "fields": 7,
+      "nullable": 1,
+      "foreignKeys": 2,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "TeamInvite",
+      "fields": 9,
+      "nullable": 1,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "CreatorProfile",
+      "fields": 14,
+      "nullable": 3,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "SocialAccount",
+      "fields": 13,
+      "nullable": 5,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "Campaign",
+      "fields": 16,
+      "nullable": 3,
+      "foreignKeys": 1,
+      "unique": 0,
+      "indexes": 4
+    },
+    {
+      "model": "CampaignDeliverable",
+      "fields": 9,
+      "nullable": 1,
+      "foreignKeys": 1,
+      "unique": 0,
+      "indexes": 1
+    },
+    {
+      "model": "Application",
+      "fields": 10,
+      "nullable": 1,
+      "foreignKeys": 2,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "Post",
+      "fields": 15,
+      "nullable": 5,
+      "foreignKeys": 3,
+      "unique": 0,
+      "indexes": 3
+    },
+    {
+      "model": "PostMetricSnapshot",
+      "fields": 10,
+      "nullable": 0,
+      "foreignKeys": 1,
+      "unique": 0,
+      "indexes": 1
+    },
+    {
+      "model": "AnalyticsDaily",
+      "fields": 16,
+      "nullable": 0,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 2
+    },
+    {
+      "model": "Subscription",
+      "fields": 12,
+      "nullable": 5,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "Payment",
+      "fields": 12,
+      "nullable": 2,
+      "foreignKeys": 2,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "Invoice",
+      "fields": 12,
+      "nullable": 4,
+      "foreignKeys": 1,
+      "unique": 2,
+      "indexes": 0
+    },
+    {
+      "model": "Wallet",
+      "fields": 7,
+      "nullable": 0,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 0
+    },
+    {
+      "model": "LedgerEntry",
+      "fields": 8,
+      "nullable": 0,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "Payout",
+      "fields": 12,
+      "nullable": 3,
+      "foreignKeys": 1,
+      "unique": 2,
+      "indexes": 1
+    },
+    {
+      "model": "Conversation",
+      "fields": 4,
+      "nullable": 1,
+      "foreignKeys": 0,
+      "unique": 0,
+      "indexes": 0
+    },
+    {
+      "model": "ConversationParticipant",
+      "fields": 7,
+      "nullable": 2,
+      "foreignKeys": 2,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "Message",
+      "fields": 9,
+      "nullable": 2,
+      "foreignKeys": 2,
+      "unique": 0,
+      "indexes": 1
+    },
+    {
+      "model": "Notification",
+      "fields": 10,
+      "nullable": 3,
+      "foreignKeys": 1,
+      "unique": 0,
+      "indexes": 1
+    },
+    {
+      "model": "AvailabilitySlot",
+      "fields": 7,
+      "nullable": 1,
+      "foreignKeys": 0,
+      "unique": 1,
+      "indexes": 0
+    },
+    {
+      "model": "BookCall",
+      "fields": 15,
+      "nullable": 5,
+      "foreignKeys": 2,
+      "unique": 1,
+      "indexes": 2
+    },
+    {
+      "model": "Lead",
+      "fields": 13,
+      "nullable": 7,
+      "foreignKeys": 0,
+      "unique": 0,
+      "indexes": 1
+    },
+    {
+      "model": "ContactMessage",
+      "fields": 8,
+      "nullable": 1,
+      "foreignKeys": 0,
+      "unique": 0,
+      "indexes": 0
+    },
+    {
+      "model": "NewsletterSubscriber",
+      "fields": 10,
+      "nullable": 2,
+      "foreignKeys": 0,
+      "unique": 3,
+      "indexes": 0
+    },
+    {
+      "model": "MediaAsset",
+      "fields": 18,
+      "nullable": 6,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "SiteStat",
+      "fields": 7,
+      "nullable": 0,
+      "foreignKeys": 0,
+      "unique": 0,
+      "indexes": 0
+    },
+    {
+      "model": "Testimonial",
+      "fields": 12,
+      "nullable": 1,
+      "foreignKeys": 0,
+      "unique": 0,
+      "indexes": 0
+    },
+    {
+      "model": "FAQ",
+      "fields": 7,
+      "nullable": 1,
+      "foreignKeys": 0,
+      "unique": 0,
+      "indexes": 0
+    },
+    {
+      "model": "PricingPlan",
+      "fields": 14,
+      "nullable": 5,
+      "foreignKeys": 0,
+      "unique": 1,
+      "indexes": 0
+    },
+    {
+      "model": "AuditLog",
+      "fields": 10,
+      "nullable": 4,
+      "foreignKeys": 1,
+      "unique": 0,
+      "indexes": 2
+    },
+    {
+      "model": "WebhookEvent",
+      "fields": 8,
+      "nullable": 1,
+      "foreignKeys": 0,
+      "unique": 1,
+      "indexes": 0
+    },
+    {
+      "model": "CookieConsent",
+      "fields": 9,
+      "nullable": 1,
+      "foreignKeys": 1,
+      "unique": 0,
+      "indexes": 1
+    },
+    {
+      "model": "OutboxEvent",
+      "fields": 8,
+      "nullable": 2,
+      "foreignKeys": 0,
+      "unique": 0,
+      "indexes": 1
+    },
+    {
+      "model": "Refund",
+      "fields": 10,
+      "nullable": 2,
+      "foreignKeys": 1,
+      "unique": 2,
+      "indexes": 1
+    },
+    {
+      "model": "RevenueEvent",
+      "fields": 8,
+      "nullable": 0,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 1
+    },
+    {
+      "model": "CheckoutAttempt",
+      "fields": 11,
+      "nullable": 2,
+      "foreignKeys": 1,
+      "unique": 1,
+      "indexes": 1
+    }
+  ],
+  "findings": []
+}

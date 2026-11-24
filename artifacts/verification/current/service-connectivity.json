@@ -1,0 +1,21 @@
+{
+  "at": "2026-11-14T19:46:22.924Z",
+  "rows": [
+    {
+      "port": 3000,
+      "result": "ECONNREFUSED"
+    },
+    {
+      "port": 4000,
+      "result": "ECONNREFUSED"
+    },
+    {
+      "port": 5432,
+      "result": "ECONNREFUSED"
+    },
+    {
+      "port": 6379,
+      "result": "ECONNREFUSED"
+    }
+  ]
+}

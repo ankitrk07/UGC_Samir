@@ -1,0 +1,70 @@
+{
+  "at": "2026-11-13T16:01:16.768Z",
+  "scope": "Real Next HTTP boundary only; no successful backend request",
+  "rows": [
+    {
+      "name": "public signup page",
+      "path": "/signup",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "backendAcceptance": false
+    },
+    {
+      "name": "guest workspace",
+      "path": "/api/backend/campaigns",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "backendAcceptance": false
+    },
+    {
+      "name": "unknown proxy route",
+      "path": "/api/backend/unknown-operation",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "backendAcceptance": false
+    },
+    {
+      "name": "cross-origin signup",
+      "path": "/api/backend/auth/signup",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "backendAcceptance": false
+    },
+    {
+      "name": "malformed JSON",
+      "path": "/api/backend/auth/signup",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "backendAcceptance": false
+    },
+    {
+      "name": "wrong content type",
+      "path": "/api/backend/auth/signup",
+      "status": 415,
+      "expected": 415,
+      "pass": true,
+      "backendAcceptance": false
+    },
+    {
+      "name": "oversized body",
+      "path": "/api/backend/auth/signup",
+      "status": 413,
+      "expected": 413,
+      "pass": true,
+      "backendAcceptance": false
+    },
+    {
+      "name": "honest backend outage",
+      "path": "/api/backend/stats",
+      "status": 503,
+      "expected": 503,
+      "pass": true,
+      "backendAcceptance": false
+    }
+  ]
+}

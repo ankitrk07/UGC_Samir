@@ -1,0 +1,83 @@
+{
+  "at": "2026-11-13T15:35:45.050Z",
+  "results": [
+    {
+      "target": "http://localhost:4000/api/v1/media/showcase",
+      "error": "ECONNREFUSED",
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:3000/api/backend/media/showcase",
+      "status": 503,
+      "body": {
+        "message": "We could not reach the live service. Please try again."
+      },
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:4000/api/v1/pricing",
+      "error": "ECONNREFUSED",
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:3000/api/backend/pricing",
+      "status": 503,
+      "body": {
+        "message": "We could not reach the live service. Please try again."
+      },
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:4000/api/v1/faq",
+      "error": "ECONNREFUSED",
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:3000/api/backend/faq",
+      "status": 503,
+      "body": {
+        "message": "We could not reach the live service. Please try again."
+      },
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:4000/api/v1/testimonials",
+      "error": "ECONNREFUSED",
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:3000/api/backend/testimonials",
+      "status": 503,
+      "body": {
+        "message": "We could not reach the live service. Please try again."
+      },
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:4000/api/v1/stats",
+      "error": "ECONNREFUSED",
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:3000/api/backend/stats",
+      "status": 503,
+      "body": {
+        "message": "We could not reach the live service. Please try again."
+      },
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:4000/api/v1/auth/signup",
+      "error": "ECONNREFUSED",
+      "liveBackendVerified": false
+    },
+    {
+      "target": "http://localhost:3000/api/backend/auth/signup",
+      "status": 503,
+      "body": {
+        "message": "We could not reach the live service. Please try again."
+      },
+      "liveBackendVerified": false
+    }
+  ]
+}

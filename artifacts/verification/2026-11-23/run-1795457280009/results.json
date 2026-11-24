@@ -1,0 +1,1549 @@
+{
+  "startedAt": "2026-11-23T18:08:00.011Z",
+  "node": "v26.13.0",
+  "productionReady": false,
+  "checks": [
+    {
+      "id": "offline-tests",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "--test",
+        "tests/configuration.test.cjs",
+        "tests/contracts.test.cjs",
+        "tests/local-setup.test.cjs",
+        "tests/payment-safety.test.cjs",
+        "tests/service-checks.test.cjs",
+        "tests/socket-session.test.cjs",
+        "tests/worker-dispatch.test.cjs",
+        "frontend/tests/backend-policy.test.mjs",
+        "frontend/tests/backend-request.test.mjs"
+      ],
+      "startedAt": "2026-11-23T18:08:00.015Z",
+      "endedAt": "2026-11-23T18:08:01.186Z",
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "artifacts\\verification\\2026-11-23\\run-1795457280009\\offline-tests.log"
+    },
+    {
+      "id": "backend-source",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "scripts/verify-source.cjs"
+      ],
+      "startedAt": "2026-11-23T18:08:01.186Z",
+      "endedAt": "2026-11-23T18:08:01.716Z",
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "artifacts\\verification\\2026-11-23\\run-1795457280009\\backend-source.log"
+    },
+    {
+      "id": "schema-source-audit",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "scripts/audit-schema.cjs"
+      ],
+      "startedAt": "2026-11-23T18:08:01.717Z",
+      "endedAt": "2026-11-23T18:08:01.775Z",
+      "exitCode": 0,
+      "status": "PASS",
+      "log": "artifacts\\verification\\2026-11-23\\run-1795457280009\\schema-source-audit.log"
+    },
+    {
+      "id": "authenticated-services",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "scripts/check-services.cjs"
+      ],
+      "startedAt": "2026-11-23T18:08:01.776Z",
+      "endedAt": "2026-11-23T18:08:01.857Z",
+      "exitCode": 1,
+      "status": "FAIL",
+      "log": "artifacts\\verification\\2026-11-23\\run-1795457280009\\authenticated-services.log"
+    },
+    {
+      "id": "backend-strict-typecheck",
+      "command": [
+        "C:\\Program Files\\nodejs\\node.exe",
+        "node_modules/typescript/bin/tsc",
+        "--project",
+        "backend/tsconfig.json",
+        "--noEmit"
+      ],
+      "startedAt": "2026-11-23T18:08:01.857Z",
+      "endedAt": "2026-11-23T18:08:03.348Z",
+      "exitCode": 2,
+      "status": "FAIL",
+      "log": "artifacts\\verification\\2026-11-23\\run-1795457280009\\backend-strict-typecheck.log"
+    },
+    {
+      "id": "backend-migrate",
+      "status": "BLOCKED",
+      "reason": "Set process DATABASE_URL to a dedicated *_test database and REDIS_URL to Redis DB 15."
+    },
+    {
+      "id": "backend-coverage",
+      "status": "BLOCKED",
+      "reason": "Test-service isolation guard rejected missing or unsafe test connections."
+    },
+    {
+      "id": "dependency-audit",
+      "command": [
+        "cmd.exe",
+        "/d",
+        "/c",
+        "npm.cmd",
+        "audit",
+        "--audit-level=high",
+        "--cache",
+        ".npm-verification-cache",
+        "--fetch-retries=0",
+        "--fetch-timeout=10000"
+      ],
+      "startedAt": "2026-11-23T18:08:03.349Z",
+      "endedAt": "2026-11-23T18:08:03.948Z",
+      "exitCode": 1,
+      "status": "FAIL",
+      "log": "artifacts\\verification\\2026-11-23\\run-1795457280009\\dependency-audit.log"
+    }
+  ],
+  "prerequisites": {
+    "databaseUrlConfiguredInProcess": false,
+    "redisUrlConfiguredInProcess": false,
+    "backendEnvFilePresent": true,
+    "frontendEnvFilePresent": true,
+    "services": [
+      {
+        "id": "tcp-5432",
+        "host": "127.0.0.1",
+        "port": 5432,
+        "status": "UNAVAILABLE",
+        "reason": "ECONNREFUSED"
+      },
+      {
+        "id": "tcp-6379",
+        "host": "127.0.0.1",
+        "port": 6379,
+        "status": "UNAVAILABLE",
+        "reason": "ECONNREFUSED"
+      }
+    ]
+  },
+  "apiOperations": [
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/csrf",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/google/exchange",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/signup",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/login",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/me",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/refresh",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/logout-all",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/forgot-password",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/resend-verification",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/reset-password",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/verify-email",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/change-password",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/google",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/auth/google/callback",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/brand/billing",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/brand/profile",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/brand/profile",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/brand/profile",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/creators/{id}/profile",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/brand/onboarding",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/brand/onboarding",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/brand/team",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/brand/team/invites",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/brand/team/accept",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/brand/team/{id}",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/campaigns",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/campaigns",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/campaigns/marketplace",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/brand/jobs",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/campaigns/{id}",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/campaigns/{id}",
+      "auth": "BRAND, ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/campaigns/{id}",
+      "auth": "BRAND, ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/campaigns/{id}/duplicate",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/campaigns/{id}/deliverables",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/creators",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/creators/me",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/creators/me",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/creators/me",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/creators/onboarding",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/creators/payout-details",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/campaigns/{id}/applications",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/applications",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/applications/{id}/withdraw",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/applications/{id}",
+      "auth": "BRAND, ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/content",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/content",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/content/{id}/review",
+      "auth": "BRAND, ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/content/{id}",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/campaigns/{id}/revenue",
+      "auth": "BRAND, ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/analytics",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/analytics/export",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/analytics/top-posts",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/analytics/leaderboard",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/creators/socials",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/creators/socials",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/creators/socials/{id}/verify",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/creators/socials/{id}",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/media/upload",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/media/{id}/complete",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/media/{id}",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/media/{id}",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/payments/checkout",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/subscriptions/me",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/subscriptions/cancel",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/subscriptions/plan",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/payments/portal",
+      "auth": "BRAND",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/invoices",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/invoices/{id}/pdf",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/payments/{id}/refund",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/creators/earnings",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/payouts",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/payouts",
+      "auth": "CREATOR",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/payouts/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/conversations",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/conversations",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/conversations/{id}/messages",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/conversations/{id}/messages",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/conversations/{id}/read",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/conversations/{id}/presence",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/notifications",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/notifications/{id}/read",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/notifications/read-all",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/notifications/preferences",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/contact",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/creators/apply",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/leads",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/newsletter",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/newsletter/confirm",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/newsletter/unsubscribe",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/testimonials",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/faq",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/pricing",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/countries",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/stats",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/media/showcase",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/sitemap",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/bookings/slots",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/bookings",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/bookings/{id}/cancel",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/bookings/{id}/reschedule",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/payouts/{id}/details",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/checkouts",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/checkouts/{id}/reconcile",
+      "auth": "SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/users",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/users/{id}/status",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/users/{id}/impersonate",
+      "auth": "SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/creators/verification",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/creators/{id}/verify",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/metrics",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/leads",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/contacts",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/calls",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/payouts",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/audit",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/content",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/campaigns",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/contacts/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/leads/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/calls/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/availability",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/availability",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/availability/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/site/testimonials",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/site/testimonials/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/site/testimonials/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/site/faq",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/site/faq/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/site/faq/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/site/pricing",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/site/pricing/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/admin/site/pricing/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/site/stats",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/media",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/admin/media/{id}",
+      "auth": "ADMIN, SUPERADMIN",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/compliance/consent",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/compliance/terms",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/compliance/export",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/compliance/account",
+      "auth": "Authenticated",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/payments/webhooks/stripe",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/payments/webhooks/razorpay",
+      "auth": "Public / provider signature",
+      "success": "NOT_RUN",
+      "authentication": "NOT_RUN",
+      "authorization": "NOT_RUN",
+      "validation": "NOT_RUN",
+      "ownership": "NOT_RUN"
+    }
+  ],
+  "finishedAt": "2026-11-23T18:08:03.953Z",
+  "serviceCoverage": {
+    "status": "NOT_MEASURED",
+    "requiredPercent": 70,
+    "observedPercent": null
+  }
+}
